@@ -4,19 +4,34 @@ import json
 import os
 import sys
 
+errlog = lambda msg: sys.stderr.write("{}\n".format(msg))
+
 if len(sys.argv) < 2:
-	print "Invalid number of args"
+	print("Invalid number of args")
 	exit(1)
 
 term_name = " ".join(sys.argv[1:])
+filepath = os.path.join(os.path.expanduser('~'), 'Terms.json')
 
-with open(os.path.join(os.path.expanduser('~'), 'Terms.txt'), "w+") as input_file:
+if os.path.isfile(filepath) and os.access(filepath, os.R_OK):
 	try:
-		data = json.load(input_file)
+		terms_file = open(filepath, "r")
+		data = json.load(terms_file)
 	except ValueError:
-		data = dict()
-		json.dump(data, input_file)
+		errlog("Error has occurred loading file. File will be regenerated from scratch")
+		terms_file.close()
+		terms_file = open(filepath, "w")
+		terms_file.write("{}")
+	finally:
+		terms_file.close()
+
 	if term_name in data:
-		print data[term_name]
+		print(data[term_name])
 	else:
-		print "Term not found!"
+		print("Term not found!")
+
+else:
+	errlog("Terms file not found. Creating a new one.")
+	terms_file = open(filepath, "w")
+	terms_file.write("{}") 
+	terms_file.close()
