@@ -39,6 +39,6 @@ while len(term_desc) < 1:
 	term_desc = raw_input()
 
 terms_file = open(filepath, "w")
-data[term_name] = term_desc
+data[term_name.lower()] = { "proper_capitalization": term_name, "description": term_desc }
 json.dump(data, terms_file)
 terms_file.close()

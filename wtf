@@ -10,7 +10,7 @@ if len(sys.argv) < 2:
 	print("Invalid number of args")
 	exit(1)
 
-term_name = " ".join(sys.argv[1:])
+term_name = " ".join(sys.argv[1:]).lower()
 filepath = os.path.join(os.path.expanduser('~'), 'Terms.json')
 
 if os.path.isfile(filepath) and os.access(filepath, os.R_OK):
@@ -26,7 +26,8 @@ if os.path.isfile(filepath) and os.access(filepath, os.R_OK):
 		terms_file.close()
 
 	if term_name in data:
-		print(data[term_name])
+		print(data[term_name]["proper_capitalization"] + ":")
+		print(data[term_name]["description"])
 	else:
 		print("Term not found!")
 		exit(1)
