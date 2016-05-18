@@ -29,6 +29,7 @@ if os.path.isfile(filepath) and os.access(filepath, os.R_OK):
 		print(data[term_name])
 	else:
 		print("Term not found!")
+		exit(1)
 
 else:
 	errlog("Terms file not found. Creating a new one.")
