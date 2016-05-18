@@ -1,3 +1,23 @@
-#!/bin/bash
+#!/usr/bin/python
 
-cat ~/Terms.txt | grep -i $1
+import json
+import os
+import sys
+
+if len(sys.argv) < 2:
+	print "Invalid number of args"
+	exit(1)
+
+term_name = " ".join(sys.argv[1:])
+print term_name
+
+with open(os.path.join(os.path.expanduser('~'), 'Terms.txt'), "w+") as input_file:
+	try:
+		data = json.load(input_file)
+	except ValueError:
+		data = dict()
+		json.dump(data, input_file)
+	if term_name in data:
+		print data[term_name]
+	else:
+		print "Term not found!"
