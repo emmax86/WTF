@@ -9,12 +9,11 @@ Two simple scripts I devised for keeping track of terms and acronyms
   
   Use: retrieving term
 ##tf - That's for
-  tf [term/acronym name] [term/acronym definition]
+  tf
   
-  Output: none
+  Output: CLI process for storing term
   
   Use: storing term
   
   ---
-  Note that terms are piped into the program as command line args; if you use spaces in your term name or definition, they must be respectively wrapped in quotes.
-  
+  Note that although terms are piped into wtf as command line args, they may contain spaces in the names; wtf will automagically join each of the args into one term before searching.
