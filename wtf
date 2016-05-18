@@ -9,7 +9,6 @@ if len(sys.argv) < 2:
 	exit(1)
 
 term_name = " ".join(sys.argv[1:])
-print term_name
 
 with open(os.path.join(os.path.expanduser('~'), 'Terms.txt'), "w+") as input_file:
 	try:
