@@ -37,7 +37,7 @@ def main(args):
 			terms_file.close()
 		else:
 			errlog("Permissions error with Terms.json\nCheck user permissions")
-			exit(1)
+		exit(1)
 		
 if "__main__" == __name__:
 	parser = argparse.ArgumentParser(description="What's this for?\n Enter a term")
