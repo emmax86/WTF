@@ -1,5 +1,8 @@
 # WTF
-Two simple scripts I devised for keeping track of terms and acronyms
+  Build status: [![Build Status](https://travis-ci.org/stevex86/WTF.svg?branch=master)](https://travis-ci.org/stevex86/WTF)
+  
+  Two simple scripts I devised for keeping track of terms and acronyms
+
 
 # Use
 ## wtf - What's this for?
