@@ -16,13 +16,12 @@ def main(args):
     
     else:
         try:
-            terms_file, data = read_term_data()
+            data = read_term_data()
             if term_name in data:
                 print(data[term_name]["proper_capitalization"] + ":")
                 print(data[term_name]["description"])
             else:
                 print("Term not found!\nUse tf to create a new term")
-            terms_file.close()
         except JSONDecodeError:
             # Better to make user explicitly request to rebuild Terms.json with a flag
             # TODO
@@ -31,7 +30,7 @@ def main(args):
 if "__main__" == __name__:
     parser = argparse.ArgumentParser(
         description="What's this for?\n Enter a term")
-    parser.add_argument("term", nargs="*")
+    parser.add_argument("term", nargs="+")
 
     args = parser.parse_args()
 
