@@ -24,15 +24,14 @@ def main(args):
         term_desc = raw_input()
 
     try:
-        terms_file, data = read_term_data()
+        data = read_term_data()
         if term_name.lower() in data:
             # TODO: add system which allows user to specify whether they want to overwrite
             print("This term already exists")
         else:
             data[term_name.lower()] = {
                 "proper_capitalization": term_name, "description": term_desc}
-            json.dump(data, terms_file)
-            terms_file.close()
+            write_term_data(data)
     except ValueError:
             # Better to make user explicitly request to rebuild Terms.json with a flag
             # TODO
@@ -40,3 +39,4 @@ def main(args):
 
 if __name__ == '__main__':
     main([])
+    

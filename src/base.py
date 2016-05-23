@@ -14,11 +14,9 @@ filepath = os.path.join(os.path.expanduser("~"), "Terms.json")
 def errlog(msg):
     sys.stderr.write("{}\n".format(msg))
 
-def die():
-    exit(1)
-    
-def die(msg):
-    errlog(msg):
+def die(msg=""):
+    if msg:
+        errlog(msg)
     exit(1)
 
 def terms_file_exists():
@@ -36,10 +34,15 @@ def can_write_terms_file():
     
 def read_term_data():
     try:
-        terms_file = open(filepath, "w+")
+        terms_file = open(filepath, "r+")
         data = json.load(terms_file)
-        return terms_file, data
+        terms_file.close()
+        return data
     except IOError:
         raise FileNotFoundError
     except ValueError:
         raise JSONDecodeError()
+
+def write_term_data(data):
+    terms_file = open(filepath, "w+")
+    json.dump(data, terms_file)
