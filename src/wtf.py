@@ -1,45 +1,33 @@
 import argparse
-import json
-import os
-import sys
-
-errlog = lambda msg: sys.stderr.write("{}\n".format(msg))
-
+from base import *
 
 def main(args):
-    filepath = os.path.join(os.path.expanduser('~'), 'Terms.json')
-    term_name = " ".join(args.term)
+    term_name = " ".join(args.term).lower()
 
-    if os.path.isfile(filepath) and os.access(filepath, os.R_OK):
-        try:
-            terms_file = open(filepath, "r")
-            data = json.load(terms_file)
-        except ValueError:
-            errlog(
-                "Error has occurred loading file. File will be regenerated from scratch")
-            terms_file.close()
-            terms_file = open(filepath, "w")
-            terms_file.write("{}")
-        finally:
-            terms_file.close()
-
-        if term_name in data:
-            print(data[term_name]["proper_capitalization"] + ":")
-            print(data[term_name]["description"])
+    if not terms_file_exists():
+        if not can_write_terms_file():
+            die("Fatal error: Cannot create Terms.json!")
         else:
-            print("Term not found!\nUse tf to create a new term.")
-            exit(1)
-
+            make_terms_file()
+            print("Term not found\nUse tf to create a new term.")
+    
+    elif not can_read_terms_file():
+            die("Fatal error: Cannot read Terms.json! (Invalid file permissions?)")
+    
     else:
-        if not os.path.isfile(filepath):
-            errlog("Terms file not found. Creating a new one.")
-            terms_file = open(filepath, "w")
-            terms_file.write("{}")
+        try:
+            terms_file, data = read_term_data()
+            if term_name in data:
+                print(data[term_name]["proper_capitalization"] + ":")
+                print(data[term_name]["description"])
+            else:
+                print("Term not found!\nUse tf to create a new term")
             terms_file.close()
-        else:
-            errlog("Permissions error with Terms.json\nCheck user permissions")
-        exit(1)
-
+        except JSONDecodeError:
+            # Better to make user explicitly request to rebuild Terms.json with a flag
+            # TODO
+            die("Fatal error: Terms data appears to be corrupt")
+    
 if "__main__" == __name__:
     parser = argparse.ArgumentParser(
         description="What's this for?\n Enter a term")
