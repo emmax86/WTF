@@ -1,17 +1,20 @@
-from base import *
+import base
+
 
 def main(args):
-    if not terms_file_exists():
-        if not can_write_terms_file():
-            die("Fatal error: Cannot create Terms.json!")
+    if not base.terms_file_exists():
+        if not base.can_write_terms_file():
+            base.die("Fatal error: Cannot create Terms.json!")
         else:
-            make_terms_file()
+            base.make_terms_file()
 
-    elif not can_write_terms_file():
-        die("Fatal error: Cannot write to Terms.json! (Invalid file permissions?)")
+    elif not base.can_write_terms_file():
+        base.die("Fatal error: Cannot write to Terms.json! \
+                    (Invalid file permissions?)")
 
-    elif not can_write_terms_file():
-        die("Fatal error: Cannot read Terms.json! (Invalid file permissions?)")
+    elif not base.can_write_terms_file():
+        base.die("Fatal error: Cannot read Terms.json! \
+                    (Invalid file permissions?)")
 
     print("Enter the name of the term you would like to store:")
     term_name = ""
@@ -24,19 +27,20 @@ def main(args):
         term_desc = raw_input()
 
     try:
-        data = read_term_data()
+        data = base.read_term_data()
         if term_name.lower() in data:
-            # TODO: add system which allows user to specify whether they want to overwrite
+            # TODO: add system which allows user to specify whether they want
+            # to overwrite
             print("This term already exists")
         else:
             data[term_name.lower()] = {
                 "proper_capitalization": term_name, "description": term_desc}
-            write_term_data(data)
+            base.write_term_data(data)
     except ValueError:
-            # Better to make user explicitly request to rebuild Terms.json with a flag
             # TODO
-            die("Fatal error: Terms data appears to be corrupt")
+            # Better to make user explicitly request to rebuild Terms.json with
+            # a flag
+        base.die("Fatal error: Terms data appears to be corrupt")
 
 if __name__ == '__main__':
     main([])
-    
